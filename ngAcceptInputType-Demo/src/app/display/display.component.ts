@@ -38,6 +38,6 @@ export class DisplayComponent implements OnChanges {
     const valueAsString = value as unknown as string;
     this._disabledWithGetSet = valueAsString === '' || value === true;
   }
-  static ngAcceptInputType_disabledWithGetSet: boolean | '';
+  //static ngAcceptInputType_disabledWithGetSet: boolean | '';
 
 }
