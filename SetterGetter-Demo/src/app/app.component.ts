@@ -8,6 +8,12 @@ import { interval, map, Observable } from 'rxjs';
   
   <!-- Errors as intial null value is not supported -->
   <app-display [disabled]="disabledStream$ | async"></app-display>
+
+  <app-generic 
+    [rowData]="rowData" 
+    (rowDataUpdated)="onRowDataUpdate($event)">
+  </app-generic>
+
   `,
 })
 export class AppComponent {
@@ -15,5 +21,8 @@ export class AppComponent {
 
   disabled: boolean = true;
   disabledStream$: Observable<boolean> = interval(2_000).pipe(map(x => x % 2 === 0))
+
+  rowData: number[] = [];
+  onRowDataUpdate(event: string[]) { }
 
 }
