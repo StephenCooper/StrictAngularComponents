@@ -4,6 +4,7 @@ _class: lead
 paginate: true
 backgroundColor: #fff
 backgroundImage: url('https://marp.app/assets/hero-background.svg')
+marp: true
 ---
 
 <style>
@@ -39,9 +40,13 @@ Why do we have to talk about this?
 Because surprisingly just setting the correct types isn't actually enough!
 
 ```ts
+
+
 // This will not be enough for strict applications
 @Input()
 public disabled: boolean = false;
+
+
 ```
 
 ---
@@ -49,16 +54,22 @@ public disabled: boolean = false;
  # Our Component
 
  ```ts
-export class DisplayComponent {
 
+
+export class DisplayComponent {
   @Input()
   public disabled: boolean = false;
 }
+
+
  ```
 Explicit binding of a boolean value is ok
 
  ```html
-<app-display [disabled]="true" ></app-display>
+
+  <app-display [disabled]="true" ></app-display>
+
+
 
  ```
 But what about supporting plain attributes?
@@ -73,12 +84,20 @@ But what about supporting plain attributes?
 ![](./images/disabled-attribute-error.png)
 
 ```py
+
+
 Error: app.component.html:1:14 - error TS2322: Type 'string' is not assignable to type 'boolean'.
+
+
 ```
  Because this is actually equivalent to:
 
  ```html
-<app-display [disabled]="''" ></app-display>
+
+
+  <app-display [disabled]="''" ></app-display>
+
+
  ```
 
  ---
@@ -100,11 +119,14 @@ There are two approaches depending on your Angular / Typescript version
 Static property supported by Angular compiler that enables you to widen the accepted types of an Input property.
 
 ```ts
-// Also accept the empty string in addition to boolean values
-static ngAcceptInputType_disabled: boolean | '';
 
 @Input()
 public disabled: boolean = false;
+// Also accept the empty string in addition to boolean values
+static ngAcceptInputType_disabled: boolean | '';
+
+
+
 ```
 
 Supported Angular v9-14
@@ -120,7 +142,11 @@ static ngAcceptInputType_disabled: boolean | '';
 This code now compiles with no errors.
 
 ```html
-<app-display disabled ></app-display>
+
+
+  <app-display disabled ></app-display>
+ 
+ 
  ```
 
 **But we have to remember to convert the empty string to true!**
@@ -132,15 +158,18 @@ This code now compiles with no errors.
 Convert as part of update from `ngOnChanges`
 
 ```ts
+
 ngOnChanges(changes: SimpleChanges) {
     if (changes.disabled) {
-        this._disabled = toBoolean(changes.disabled.currentValue);
+        this.disabled = toBoolean(changes.disabled.currentValue);
     }
 }
 
 toBoolean(value: boolean | string) {
-    this._disabled = (value === '') || value === true;
+    this.disabled = (value === '') || value === true;
 }
+
+
 ```
 
 ---
@@ -152,16 +181,18 @@ Works for other types too.
 Accept Dates as strings for example
 
 ```ts
-static ngAcceptInputType_date: Date | string;
+
 
 @Input()
 public date: Date;
+static ngAcceptInputType_date: Date | string;
 
 ngOnChanges(changes: SimpleChanges) {
     if (changes.date) {
-        this._date = toDate(changes.date.currentValue); 
+        this.date = toDate(changes.date.currentValue); 
     }
 }
+
 ```
 
 ---
@@ -171,15 +202,18 @@ ngOnChanges(changes: SimpleChanges) {
 Typescript 4.3 supports different Set and Get types
 
 ```ts
+
   _disabled: boolean = false;
 
   @Input()
   get disabled(): boolean {
     return this._disabled;
   }
-  set disabled(value: boolean | string) {
+  set disabled(value: boolean | string | null) {
     this._disabled = toBoolean(value);
   }
+
+
 ```
 
 No need for ngAcceptInputType anymore hence its deprecation
@@ -194,8 +228,19 @@ Now what if our user wants to set disabled state from an Observable stream?
 
 Another error! 
 
+```ts
+
+disabledStream$: Observable<boolean>;
+
+```
+
+
 ```py
- Type 'null' is not assignable to type 'boolean | ""'
+
+
+   Type 'null' is not assignable to type 'boolean | ""'
+
+
 ```
 
 Async pipe can return `null` if no value emitted yet.
@@ -206,7 +251,10 @@ Async pipe can return `null` if no value emitted yet.
 Update our `ngAcceptInputType_disabled` to handle null too.
 
 ```ts
+
 static ngAcceptInputType_disabled: boolean | '' | null;
+
+
 ```
 
 Validate that your toBoolean(value: any) function handles null
