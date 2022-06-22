@@ -2,8 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 
 @Component({
   selector: 'app-display',
-  templateUrl: './display.component.html',
-  styleUrls: ['./display.component.scss']
+  template: '<p>display works!</p>'
 })
 export class DisplayComponent implements OnChanges {
 
@@ -14,6 +13,7 @@ export class DisplayComponent implements OnChanges {
   @Input()
   public disabledWithAcceptType: boolean = false;
   static ngAcceptInputType_disabledWithAcceptType: boolean | '';
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.disabledWithAcceptType) {
       const currValue = changes.disabledWithAcceptType.currentValue as string | boolean;

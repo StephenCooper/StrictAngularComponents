@@ -2,8 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-with-pipe',
-  templateUrl: './with-pipe.component.html',
-  styleUrls: ['./with-pipe.component.scss']
+  template: `
+  <p>with-pipe works!</p>
+
+  <div>
+      {{counterAcceptType}} IS null = {{counterAcceptType === null}}
+  </div>
+  <div>
+      {{counterAsNumber}} IS null = {{counterAsNumber === null}}
+  </div>`
 })
 export class WithPipeComponent implements OnInit {
 

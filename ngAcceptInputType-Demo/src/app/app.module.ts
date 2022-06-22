@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DisplayComponent } from './display/display.component';
-import { WithPipeComponent } from './with-pipe/with-pipe.component';
+import { DisplayComponent } from './display.component';
+import { WithPipeComponent } from './with-pipe.component';
 
 @NgModule({
   declarations: [
@@ -13,8 +12,7 @@ import { WithPipeComponent } from './with-pipe/with-pipe.component';
     WithPipeComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule
+    BrowserModule
   ],
   providers: [],
   bootstrap: [AppComponent]
