@@ -7,7 +7,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 export class DisplayComponent implements OnChanges {
 
   @Input()
-  public disabled: boolean = false;
+  public disabled: boolean | null = false;
 
   private _disabledWithAcceptType: boolean = false;
   @Input()

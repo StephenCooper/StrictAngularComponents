@@ -12,7 +12,6 @@ import { DisplayComponent } from './display.component';
   imports: [
     BrowserModule,
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
