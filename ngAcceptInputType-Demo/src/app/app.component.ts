@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { interval, Observable, timer } from 'rxjs';
+import { interval, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
